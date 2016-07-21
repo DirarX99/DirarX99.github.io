@@ -1,30 +1,77 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Hank Quinlan, Horrible Cop</title>
-		<!-- link to main stylesheet -->
-		<link rel="stylesheet" type="text/css" href="/css/main.css">
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Hank Quinlan!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:hankquinlanhub@gmail.com">email</a></li>
-        		<li><a href="https://github.com/hankquinlan">github.com/hankquinlan</a></li>
-			</ul>
-		</footer>
-	</body>
+<head>
+	<meta charset=utf-8 />
+	<title>geolocation first try</title>
+	<!--<script async src="http://maps.google.com/maps/api/js?=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry"></script>-->
+		<script type="text/javascript" src="api.js"></script>
+
+	<script type="text/javascript" src="script.js"></script>
+	<style>
+        body{
+            background-color: #fafafa;
+            font-family: Helvatica,Arial,sans-serif;
+            margin: 20px;
+        }
+    
+    
+        div#map{
+            
+            width: 900px;
+            height: 700px;
+            
+            
+        }
+    
+    </style>
+    
+    
+    
+</head>
+<body>
+	
+	<table style="width:100%">
+  <tr>
+    <th><h3>My geolocation is :</h3></th>
+    <th><h3>distance from Tower1:</h3></th>
+    <th><h3>distance from Tower2:</h3></th>
+	<th><h3>Home marker coords :</h3></th>
+	<th><h3>The nearest tower is :</h3></th>
+	<th><h3>Tower1 Range :</h3></th>
+	 <th><h3>Tower2 Range :</h3></th> 
+  </tr>
+  <tr>
+    <th><p id="location"></p>...</th>
+    <th><p><div id="distance">0</div> Km </p></th>
+    <th><p><div id="distance2">0</div> Km </p></th>
+	<th><p id="test">...</p></th>
+	<th><p id="nearest" >...</p></th>
+	<th><p id="radius1" >...</p></th>
+	<th><p id="radius2" >...</p></th>
+  </tr>
+
+</table>
+<input onclick="clearMarkers();" type=button value="Hide Markers">
+	<input onclick="deleteMarkers();" type=button value="Delete Markers">
+	<input onclick="showMarkers();" type=button value="Show All Markers">
+<div id="map">loading...</div>
+  <!-- 
+ <input onclick="clearMarkers();" type=button value="Hide Markers">
+	<input onclick="deleteMarkers();" type=button value="Delete Markers">
+	<input onclick="showMarkers();" type=button value="Show All Markers">
+ 
+    <h1>My geolocation is :</h1>
+	
+    <p id="location"></p>
+	<h1>distance from Tower1:</h1>
+	<p><div id="distance">0</div> Km </p>
+	<h1>distance from Tower2:</h1>
+	<p><div id="distance2">0</div> Km </p>
+	<h1>Home marker coords :</h1>
+	<p id="test">...</p>
+	<h1>The nearest tower is :</h1>
+	<p id="nearest" ></p>
+    
+ 	-->
+</body>
 </html>
