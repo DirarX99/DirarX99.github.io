@@ -137,8 +137,54 @@ function showMap (coords){
           });
         });
 	*/
-	
-	
+	 var input = /** @type {!HTMLInputElement} */(
+      document.getElementById('pac-input'));
+
+  var types = document.getElementById('type-selector');
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', map);
+
+  
+ 
+
+  autocomplete.addListener('place_changed', function() {
+    
+    marker.setVisible(false);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+
+    
+	createMarker(place.geometry.location);  
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+  
+  });
+
+
+    
+    
+
 }
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -157,17 +203,18 @@ function createMarker(latLng){
      marker= new google.maps.Marker(markerOptions);
    markers.push(marker); 
  
-        
+    /*    
      google.maps.event.addListener(marker,"click", function(event){
     infoWindow.setContent("location: "+event.latLng.lat().toFixed(2)+","+event.latLng.lng().toFixed(2));
         infoWindow.open(map,marker);
         
-    });   
+    });   */
 	 google.maps.event.addListener(marker,"dragend", function(event){
     console.log("marker dropped !");
       var plocation = document.getElementById("location");
     plocation.innerHTML = event.latLng.lat()+","+event.latLng.lng();  
     });   
+	
 	
 	
 	test= marker.getPosition();
@@ -300,7 +347,7 @@ function createMarker(latLng){
 	
 	 
 	       markerTower = new google.maps.Marker({
-		  icon:("tower.png"), 
+		  icon:("Tower.png"), 
           position: myLatLng,
           map: map,
           title: 'Hello World!'
