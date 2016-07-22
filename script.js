@@ -300,7 +300,7 @@ function createMarker(latLng){
 	
 	 
 	       markerTower = new google.maps.Marker({
-		  icon:("Tower.png"), 
+		  icon:("tower.png"), 
           position: myLatLng,
           map: map,
           title: 'Hello World!'
