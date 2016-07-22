@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>geolocation first try</title>
+	<script async src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry,places"></script>
+	
+	<link rel="stylesheet" type="text/css" href="style.css">	
+
+	<script type="text/javascript" src="script.js"></script>
+	<style>
+        body{
+            background-color: #fafafa;
+            font-family: Helvatica,Arial,sans-serif;
+            margin: 20px;
+        }
+    
+    
+        div#map{
+            
+            width: 900px;
+            height: 700px;
+            
+            
+        }
+    
+    </style>
+    
+    
+    
+</head>
+<body>
+	
+	<table style="width:100%">
+  <tr>
+    <th><h3>My geolocation is :</h3></th>
+    <th><h3>distance from Tower1:</h3></th>
+    <th><h3>distance from Tower2:</h3></th>
+	<th><h3>Home marker coords :</h3></th>
+	<th><h3>The nearest tower is :</h3></th>
+	<th><h3>Tower1 Range :</h3></th>
+	 <th><h3>Tower2 Range :</h3></th> 
+  </tr>
+  <tr>
+    <th><p id="location"></p>...</th>
+    <th><p><div id="distance">0</div> Km </p></th>
+    <th><p><div id="distance2">0</div> Km </p></th>
+	<th><p id="test">...</p></th>
+	<th><p id="nearest" >...</p></th>
+	<th><p id="radius1" >...</p></th>
+	<th><p id="radius2" >...</p></th>
+  </tr>
+
+</table>
+
+
+<input id="pac-input" class="controls" type="text"
+    placeholder="Enter a location">
+
+
+
+
+<input onclick="clearMarkers();" type=button value="Hide Markers">
+	<input onclick="deleteMarkers();" type=button value="Delete Markers">
+	<input onclick="showMarkers();" type=button value="Show All Markers">
+<div id="map">loading...</div>
+  <!-- 
+ <input onclick="clearMarkers();" type=button value="Hide Markers">
+	<input onclick="deleteMarkers();" type=button value="Delete Markers">
+	<input onclick="showMarkers();" type=button value="Show All Markers">
+ 
+    <h1>My geolocation is :</h1>
+	
+    <p id="location"></p>
+	<h1>distance from Tower1:</h1>
+	<p><div id="distance">0</div> Km </p>
+	<h1>distance from Tower2:</h1>
+	<p><div id="distance2">0</div> Km </p>
+	<h1>Home marker coords :</h1>
+	<p id="test">...</p>
+	<h1>The nearest tower is :</h1>
+	<p id="nearest" ></p>
+    
+ 	-->
+</body>
+</html>
