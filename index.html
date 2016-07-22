@@ -3,8 +3,9 @@
 <head>
 	<meta charset=utf-8 />
 	<title>geolocation first try</title>
-	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsuE0lYF7q13d5sC6c8jRTg2ChScptMkc&libraries=geometry"></script>
-	<!--	<script type="text/javascript" src="api.js"></script>-->
+	<script async src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry,places"></script>
+	<script async src="http://maps.googleapis.com/maps/api/geocode/json?address=Singapore%20505468&sensor=false&components=country:SG"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">	
 
 	<script type="text/javascript" src="script.js"></script>
 	<style>
@@ -51,6 +52,14 @@
   </tr>
 
 </table>
+
+
+<input id="pac-input" class="controls" type="text"
+    placeholder="Enter a location">
+
+
+
+
 <input onclick="clearMarkers();" type=button value="Hide Markers">
 	<input onclick="deleteMarkers();" type=button value="Delete Markers">
 	<input onclick="showMarkers();" type=button value="Show All Markers">
