@@ -300,7 +300,7 @@ function createMarker(latLng){
 	
 	 
 	       markerTower = new google.maps.Marker({
-		  icon:("tower.png"), 
+		  icon:("Tower.png"), 
           position: myLatLng,
           map: map,
           title: 'Hello World!'
@@ -355,17 +355,21 @@ function setMapOnAll(map) {
         }
       }
 //--------------------------------------------------------------------------------------------------------------------- 
-window.onload =function(){
-    
-    if (navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(displayLocation);
-   
-    }else{
-        alert("sorry, this browser does not support geolocation!");
-        
-        
-    }
-    
-    
-    
+function displayError(error) {
+
+}
+
+
+
+window.onload = function() {
+	if (navigator.geolocation) {
+		
+
+		navigator.geolocation.getCurrentPosition(displayLocation, 
+			displayError,
+			{ enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
+		);
+	} else {
+		alert("Sorry, this browser doesn't support geolocation!");
+	}
 }
