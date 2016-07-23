@@ -58,7 +58,7 @@ div#map{
 
 .button{
 	 
-  
+  cursor: pointer;
    height: 35px;
    background: #3498db;
    border: none;
@@ -96,7 +96,7 @@ table {
   }
 #submit{
 	
-	margin-right: 35%;
+	margin-right: 30%;
 	
 }
 .item{
