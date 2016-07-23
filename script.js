@@ -35,7 +35,7 @@ function showMap (coords){
         
         zoom:12, 
         center:googleLatLong, 
-        mapTypeId:google.maps.MapTypeId.ROADMAP
+        mapTypeId:google.maps.MapTypeId.TERRAIN
         
         
     };
