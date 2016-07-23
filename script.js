@@ -207,7 +207,7 @@ var inputgeo= document.getElementById('latlng');
   });
   });
     
-    
+    addTower();
 
 }
 
@@ -393,8 +393,34 @@ function createMarker(latLng){
 		 
 		 
           });
-}   
-  
+} 
+//----------------------------------------------------------------------------------------------------------------------
+   function addTower(){
+   var geocoder = new google.maps.Geocoder;
+	  document.getElementById('addsubmit').addEventListener('click', function() {
+	  var inputrad = document.getElementById('addrad').value;
+      var inputcoord = document.getElementById('addtower').value;
+  var latlngStr = inputcoord.split(',', 2);
+  var latlngtower = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlngtower}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        map.setZoom(12);
+         
+		  createTowerMarker(latlngtower,parseInt(inputrad));
+       map.setCenter(latlngtower);
+        
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+  });
+	 
+	    
+} 
 
 //---------------------------------------------------------------------------------------------------------------------  
 
