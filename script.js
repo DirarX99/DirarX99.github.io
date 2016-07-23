@@ -137,12 +137,11 @@ function showMap (coords){
           });
         });
 	*/
-	 var input = /** @type {!HTMLInputElement} */(
-      document.getElementById('pac-input'));
+	 var input =(document.getElementById('pac-input'));
 
-  var types = document.getElementById('type-selector');
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+ // var types = document.getElementById('type-selector');
+ // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+ // map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
   var autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.bindTo('bounds', map);
@@ -159,12 +158,12 @@ function showMap (coords){
       return;
     }
 
-    // If the place has a geometry, then present it on a map.
+   
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
     } else {
       map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
+      map.setZoom(17);  
     }
 
     
@@ -181,12 +180,39 @@ function showMap (coords){
   
   });
 
-
+ var geocoder = new google.maps.Geocoder;
+var inputgeo= document.getElementById('latlng');
+//map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputgeo);
+	
+	
+	
+  document.getElementById('submit').addEventListener('click', function() {
+	  marker.setVisible(false);
+      var input2 = document.getElementById('latlng').value;
+  var latlngStr = input2.split(',', 2);
+  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        map.setZoom(11);
+       createMarker(latlng);  
+       map.setCenter(latlng);
+        
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
+  });
     
     
 
 }
 
+
+	
 //-----------------------------------------------------------------------------------------------------------------
 
 function createMarker(latLng){
@@ -347,7 +373,7 @@ function createMarker(latLng){
 	
 	 
 	       markerTower = new google.maps.Marker({
-		  icon:("tower.png"), 
+		  icon:("Tower.png"), 
           position: myLatLng,
           map: map,
           title: 'Hello World!'
