@@ -1,7 +1,7 @@
 var map;
 var infoWindow;
-var markers=[];
-var towers=[];
+var markers = [];
+var towers = [];
 var markerTower;
 var marker;
 var myLatlng;
@@ -17,71 +17,77 @@ var radT2;
 function displayLocation(position) {
 	var latitude = position.coords.latitude;
 	var longitude = position.coords.longitude;
-    
-    var plocation = document.getElementById("location");
-    plocation.innerHTML = latitude+" , "+longitude +"</br>" ;
-    
-    showMap(position.coords);
-	
-	var markerlatlng=new google.maps.LatLng(latitude,longitude);
+
+	var plocation = document.getElementById("location");
+	plocation.innerHTML = latitude + " , " + longitude + "</br>";
+
+	showMap(position.coords);
+
+	var markerlatlng = new google.maps.LatLng(latitude, longitude);
 	createMarker(markerlatlng);
 }
 
 //----------------------------------------------------------------------------------------------------------
-function showMap (coords){
-    var googleLatLong=new google.maps.LatLng(coords.latitude,coords.longitude);
-    
-    var mapOptions ={
-        
-        zoom:12, 
-        center:googleLatLong, 
-        mapTypeId:google.maps.MapTypeId.TERRAIN
-        
-        
-    };
-    
-    var mapDiv =document.getElementById("map");
-    map =new google.maps.Map(mapDiv,mapOptions);
-    infoWindow= new google.maps.InfoWindow();
-    
-     google.maps.event.addListener(map,"click", function(event){
-        var latitude=event.latLng.lat();
-        var longitude=event.latLng.lng();
-        
-    var pLocation=document.getElementById("location");
-        
-    pLocation.innerHTML= latitude +"," +longitude;
-       
+function showMap(coords) {
+	var googleLatLong = new google.maps.LatLng(coords.latitude, coords.longitude);
 
-		if(markers.length > 0){   
-    	console.log("marker already created !,You can't add another one !");
-		}else{
-  		createMarker(event.latLng);
-		map.panTo(event.latLng);	
-		} 
-		 
-   
-        
-    });  
-	
-	radT1=10000;
-	radT2=5000;
-	
-	
-	
+	var mapOptions = {
+
+		zoom: 12,
+		center: googleLatLong,
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+
+
+	};
+
+	var mapDiv = document.getElementById("map");
+	map = new google.maps.Map(mapDiv, mapOptions);
+	infoWindow = new google.maps.InfoWindow();
+
+	google.maps.event.addListener(map, "click", function (event) {
+		var latitude = event.latLng.lat();
+		var longitude = event.latLng.lng();
+
+		var pLocation = document.getElementById("location");
+
+		pLocation.innerHTML = latitude + "," + longitude;
+
+
+		if (markers.length > 0) {
+			console.log("marker already created !,You can't add another one !");
+		} else {
+			createMarker(event.latLng);
+			map.panTo(event.latLng);
+		}
+
+
+
+	});
+
+	radT1 = 10000;
+	radT2 = 5000;
+
+
+
 	new google.maps.LatLng(24.886, -70.269)
-	var myLatlng = {lat: 36.807, lng: 10.195};
-	var myLatlng2 = {lat: 36.807, lng: 10.095};
-	var tower1 = createTowerMarker(myLatlng,radT1);
-	var tower2= createTowerMarker(myLatlng2,radT2);
+	var myLatlng = {
+		lat: 36.807,
+		lng: 10.195
+	};
+	var myLatlng2 = {
+		lat: 36.807,
+		lng: 10.095
+	};
+	var tower1 = createTowerMarker(myLatlng, radT1);
+	var tower2 = createTowerMarker(myLatlng2, radT2);
 	var Latlng1 = new google.maps.LatLng(24.886, -70.269);
 	Latlng2 = new google.maps.LatLng(28.886, -72.269);
-	
-	
-	
+
+
+
 	//var distance=google.maps.geometry.spherical.computeDistanceBetween(
-      //  myLatlng, Latlng2);
-		/*
+	//  myLatlng, Latlng2);
+	/*
 
 	var distance= google.maps.geometry.spherical.computeDistanceBetween (Latlng1,Latlng2);
 	 var pdistance = document.getElementById("distance");
@@ -98,8 +104,8 @@ function showMap (coords){
     */
 	//var test= markerTower.getPosition().lat();
 	// var pdistance = document.getElementById("test");
-   // pdistance.innerHTML = test;  
-	
+	// pdistance.innerHTML = test;  
+
 	/*
 		google.maps.event.addListener(marker,"dragend", function(event) {
     
@@ -137,327 +143,330 @@ function showMap (coords){
           });
         });
 	*/
-	 var input =(document.getElementById('pac-input'));
+	var input = (document.getElementById('pac-input'));
 
- // var types = document.getElementById('type-selector');
- // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
- // map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+	// var types = document.getElementById('type-selector');
+	// map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	// map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
-  var autocomplete = new google.maps.places.Autocomplete(input);
-  autocomplete.bindTo('bounds', map);
+	var autocomplete = new google.maps.places.Autocomplete(input);
+	autocomplete.bindTo('bounds', map);
 
-  
- 
 
-  autocomplete.addListener('place_changed', function() {
-    
-    marker.setVisible(false);
-    var place = autocomplete.getPlace();
-    if (!place.geometry) {
-      window.alert("Autocomplete's returned place contains no geometry");
-      return;
-    }
 
-   
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);  
-    }
 
-    
-	createMarker(place.geometry.location);  
-    var address = '';
-    if (place.address_components) {
-      address = [
-        (place.address_components[0] && place.address_components[0].short_name || ''),
-        (place.address_components[1] && place.address_components[1].short_name || ''),
-        (place.address_components[2] && place.address_components[2].short_name || '')
-      ].join(' ');
-    }
+	autocomplete.addListener('place_changed', function () {
 
-  
-  });
+		marker.setVisible(false);
+		var place = autocomplete.getPlace();
+		if (!place.geometry) {
+			window.alert("Autocomplete's returned place contains no geometry");
+			return;
+		}
 
- var geocoder = new google.maps.Geocoder;
-var inputgeo= document.getElementById('latlng');
-//map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputgeo);
-	
-	
-	
-  document.getElementById('submit').addEventListener('click', function() {
-	  marker.setVisible(false);
-      var input2 = document.getElementById('latlng').value;
-  var latlngStr = input2.split(',', 2);
-  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-  geocoder.geocode({'location': latlng}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (results[1]) {
-        map.setZoom(11);
-       createMarker(latlng);  
-       map.setCenter(latlng);
-        
-      } else {
-        window.alert('No results found');
-      }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
-  });
-  });
-    
-    addTower();
+
+		if (place.geometry.viewport) {
+			map.fitBounds(place.geometry.viewport);
+		} else {
+			map.setCenter(place.geometry.location);
+			map.setZoom(17);
+		}
+
+
+		createMarker(place.geometry.location);
+		var address = '';
+		if (place.address_components) {
+			address = [
+				(place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+		}
+
+
+	});
+
+	var geocoder = new google.maps.Geocoder;
+	var inputgeo = document.getElementById('latlng');
+	//map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputgeo);
+
+
+
+	document.getElementById('submit').addEventListener('click', function () {
+		marker.setVisible(false);
+		var input2 = document.getElementById('latlng').value;
+		var latlngStr = input2.split(',', 2);
+		var latlng = {
+			lat: parseFloat(latlngStr[0]),
+			lng: parseFloat(latlngStr[1])
+		};
+		geocoder.geocode({
+			'location': latlng
+		}, function (results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					map.setZoom(11);
+					createMarker(latlng);
+					map.setCenter(latlng);
+
+				} else {
+					window.alert('No results found');
+				}
+			} else {
+				window.alert('Geocoder failed due to: ' + status);
+			}
+		});
+	});
+
+	addTower();
 
 }
 
 
-	
+
 //-----------------------------------------------------------------------------------------------------------------
 
-function createMarker(latLng){
-    var markerOptions={
-		icon:("map-marker-s.png"),
-       position:latLng,
+function createMarker(latLng) {
+	var markerOptions = {
+		icon: ("map-marker-s.png"),
+		position: latLng,
 		//position: {lat: 40.714, lng: -74.006},
-        map:map,
-        clickable:true,
-		draggable:true,
-        animation: google.maps.Animation.DROP
-        
-    };
-     marker= new google.maps.Marker(markerOptions);
-   markers.push(marker); 
- 
-    /*    
-     google.maps.event.addListener(marker,"click", function(event){
-    infoWindow.setContent("location: "+event.latLng.lat().toFixed(2)+","+event.latLng.lng().toFixed(2));
-        infoWindow.open(map,marker);
-        
-    });   */
-	 google.maps.event.addListener(marker,"dragend", function(event){
-    console.log("marker dropped !");
-      var plocation = document.getElementById("location");
-    plocation.innerHTML = event.latLng.lat()+","+event.latLng.lng();  
-    });   
-	
-	
-	
-	test= marker.getPosition();
-			 
-			var ptest = document.getElementById("test");
-			ptest.innerHTML = test;  
-			
-	var distance= (google.maps.geometry.spherical.computeDistanceBetween (test,towers[0].getPosition())/1000).toFixed(2);
-	 var pdistance = document.getElementById("distance");
-    pdistance.innerHTML = distance;  
-		 
-	var distance2= (google.maps.geometry.spherical.computeDistanceBetween (test,towers[1].getPosition())/1000).toFixed(2);
-	 var pdistance2 = document.getElementById("distance2");
-    pdistance2.innerHTML = distance2;  	 
-	var nearest = document.getElementById("nearest");	 
-	if (distance>distance2)	{
-		
-	
-    nearest.innerHTML = "Tower2"; 
-		
-		
-	} 
-	else{
-		
-	nearest.innerHTML = "Tower1";	
-		
-	}
-	
+		map: map,
+		clickable: true,
+		draggable: true,
+		animation: google.maps.Animation.DROP
 
-	
-	
-		 
-		 var radiusT1 = document.getElementById("radius1");
-	if((distance*1000)<radT1){
-		
-		
-    radiusT1.innerHTML = "Yes";  	
-		
-	}else{
-		
-	radiusT1.innerHTML = "No";	
-		
-	}
-		 var radiusT2 = document.getElementById("radius2");
-	
-	
-	if((distance2*1000)<radT2){
-		
-		
-    radiusT2.innerHTML = "Yes";  	
-		
-	}
-	else{
-		
-	radiusT2.innerHTML = "No";	
-		
-	}
-		
-   
-	
-	
-	
-	
-	
-	
-	
-	
-	 google.maps.event.addListener(marker,"dragend", function(event){
-     test= marker.getPosition();
-			 
-			var ptest = document.getElementById("test");
-			ptest.innerHTML = test;  
-			
-	var distance= (google.maps.geometry.spherical.computeDistanceBetween (test,towers[0].getPosition())/1000).toFixed(2);
-	 var pdistance = document.getElementById("distance");
-    pdistance.innerHTML = distance;  
-		 
-	var distance2= (google.maps.geometry.spherical.computeDistanceBetween (test,towers[1].getPosition())/1000).toFixed(2);
-	 var pdistance2 = document.getElementById("distance2");
-    pdistance2.innerHTML = distance2;  	 
-	var nearest = document.getElementById("nearest");	 
-	if (distance>distance2)	{
-		
-	
-    nearest.innerHTML = "Tower2"; 
-		
-		
-	} 
-	else{
-		
-	nearest.innerHTML = "Tower1";	
-		
-	}
-		 
+	};
+	marker = new google.maps.Marker(markerOptions);
+	markers.push(marker);
 
-		 
-			 var radiusT1 = document.getElementById("radius1");
-	if((distance*1000)<radT1){
-		
-		
-    radiusT1.innerHTML = "Yes";  	
-		
-	}else{
-		
-	radiusT1.innerHTML = "No";	
-		
-	}
-		 var radiusT2 = document.getElementById("radius2");
-	if((distance2*1000)<radT2){
-		
-		
-    radiusT2.innerHTML = "Yes";  	
-		
-	}
-	else{
-		
-	radiusT2.innerHTML = "No";	
-		
-	}	 
-	
-    });  
-	
+	/*    
+	 google.maps.event.addListener(marker,"click", function(event){
+	infoWindow.setContent("location: "+event.latLng.lat().toFixed(2)+","+event.latLng.lng().toFixed(2));
+	    infoWindow.open(map,marker);
+	    
+	});   */
+	google.maps.event.addListener(marker, "dragend", function (event) {
+		console.log("marker dropped !");
+		var plocation = document.getElementById("location");
+		plocation.innerHTML = event.latLng.lat() + "," + event.latLng.lng();
+	});
 
-	
+
+
+	test = marker.getPosition();
+
+	var ptest = document.getElementById("test");
+	ptest.innerHTML = test;
+
+	var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, towers[0].getPosition()) / 1000).toFixed(2);
+	var pdistance = document.getElementById("distance");
+	pdistance.innerHTML = distance;
+
+	var distance2 = (google.maps.geometry.spherical.computeDistanceBetween(test, towers[1].getPosition()) / 1000).toFixed(2);
+	var pdistance2 = document.getElementById("distance2");
+	pdistance2.innerHTML = distance2;
+	var nearest = document.getElementById("nearest");
+	if (distance > distance2) {
+
+
+		nearest.innerHTML = "Tower2";
+
+
+	} else {
+
+		nearest.innerHTML = "Tower1";
+
+	}
+
+
+
+
+
+	var radiusT1 = document.getElementById("radius1");
+	if ((distance * 1000) < radT1) {
+
+
+		radiusT1.innerHTML = "Yes";
+
+	} else {
+
+		radiusT1.innerHTML = "No";
+
+	}
+	var radiusT2 = document.getElementById("radius2");
+
+
+	if ((distance2 * 1000) < radT2) {
+
+
+		radiusT2.innerHTML = "Yes";
+
+	} else {
+
+		radiusT2.innerHTML = "No";
+
+	}
+
+
+
+
+
+
+
+
+
+	google.maps.event.addListener(marker, "dragend", function (event) {
+		test = marker.getPosition();
+
+		var ptest = document.getElementById("test");
+		ptest.innerHTML = test;
+
+		var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, towers[0].getPosition()) / 1000).toFixed(2);
+		var pdistance = document.getElementById("distance");
+		pdistance.innerHTML = distance;
+
+		var distance2 = (google.maps.geometry.spherical.computeDistanceBetween(test, towers[1].getPosition()) / 1000).toFixed(2);
+		var pdistance2 = document.getElementById("distance2");
+		pdistance2.innerHTML = distance2;
+		var nearest = document.getElementById("nearest");
+		if (distance > distance2) {
+
+
+			nearest.innerHTML = "Tower2";
+
+
+		} else {
+
+			nearest.innerHTML = "Tower1";
+
+		}
+
+
+
+		var radiusT1 = document.getElementById("radius1");
+		if ((distance * 1000) < radT1) {
+
+
+			radiusT1.innerHTML = "Yes";
+
+		} else {
+
+			radiusT1.innerHTML = "No";
+
+		}
+		var radiusT2 = document.getElementById("radius2");
+		if ((distance2 * 1000) < radT2) {
+
+
+			radiusT2.innerHTML = "Yes";
+
+		} else {
+
+			radiusT2.innerHTML = "No";
+
+		}
+
+	});
+
+
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
- function createTowerMarker(myLatLng,rad){
-   
-	
-	 
-	       markerTower = new google.maps.Marker({
-		  icon:("tower.png"), 
-          position: myLatLng,
-          map: map,
-          title: 'Hello World!'
-        });
-      
-		towers.push(markerTower); 
-	 
-	 towerCircle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.5,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.1,
-            map: map,
-            center: myLatLng,
-            radius: rad
-		 
-		 
-          });
-} 
+function createTowerMarker(myLatLng, rad) {
+
+
+
+	markerTower = new google.maps.Marker({
+		icon: ("tower.png"),
+		position: myLatLng,
+		map: map,
+		title: 'Hello World!'
+	});
+
+	towers.push(markerTower);
+
+	towerCircle = new google.maps.Circle({
+		strokeColor: '#FF0000',
+		strokeOpacity: 0.5,
+		strokeWeight: 2,
+		fillColor: '#FF0000',
+		fillOpacity: 0.1,
+		map: map,
+		center: myLatLng,
+		radius: rad
+
+
+	});
+}
 //----------------------------------------------------------------------------------------------------------------------
-   function addTower(){
-   var geocoder = new google.maps.Geocoder;
-	  document.getElementById('addsubmit').addEventListener('click', function() {
-	  var inputrad = document.getElementById('addrad').value;
-      var inputcoord = document.getElementById('addtower').value;
-  var latlngStr = inputcoord.split(',', 2);
-  var latlngtower = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-  geocoder.geocode({'location': latlngtower}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (results[1]) {
-        map.setZoom(12);
-         
-		  createTowerMarker(latlngtower,parseInt(inputrad));
-       map.setCenter(latlngtower);
-        
-      } else {
-        window.alert('No results found');
-      }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
-  });
-  });
-	 
-	    
-} 
+function addTower() {
+	var geocoder = new google.maps.Geocoder;
+	document.getElementById('addsubmit').addEventListener('click', function () {
+		var inputrad = document.getElementById('addrad').value;
+		var inputcoord = document.getElementById('addtower').value;
+		var latlngStr = inputcoord.split(',', 2);
+		var latlngtower = {
+			lat: parseFloat(latlngStr[0]),
+			lng: parseFloat(latlngStr[1])
+		};
+		geocoder.geocode({
+			'location': latlngtower
+		}, function (results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					map.setZoom(12);
+
+					createTowerMarker(latlngtower, parseInt(inputrad));
+					map.setCenter(latlngtower);
+
+				} else {
+					window.alert('No results found');
+				}
+			} else {
+				window.alert('Geocoder failed due to: ' + status);
+			}
+		});
+	});
+
+
+}
 
 //---------------------------------------------------------------------------------------------------------------------  
 
-function calcDistance(p1, p2){
-  return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+function calcDistance(p1, p2) {
+	return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
 }
 
 //---------------------------------------------------------------------------------------------------------------------    
- function returnPosition(){
-  map.panTo(test);
+function returnPosition() {
+	map.panTo(test);
 }
 
 //---------------------------------------------------------------------------------------------------------------------    
- 
-  function clearMarkers() {
-        setMapOnAll(null);
-      }
+
+function clearMarkers() {
+	setMapOnAll(null);
+}
 
 //---------------------------------------------------------------------------------------------------------------------    
-       function deleteMarkers() {
-        clearMarkers();
-        markers = [];
-      }
+function deleteMarkers() {
+	clearMarkers();
+	markers = [];
+}
 //--------------------------------------------------------------------------------------------------------------------- 
 
-  function showMarkers() {
-        setMapOnAll(map);
-      }
+function showMarkers() {
+	setMapOnAll(map);
+}
 
 
 //--------------------------------------------------------------------------------------------------------------------- 
 
 function setMapOnAll(map) {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-        }
-      }
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(map);
+	}
+}
 //--------------------------------------------------------------------------------------------------------------------- 
 function displayError(error) {
 
@@ -465,13 +474,16 @@ function displayError(error) {
 
 
 
-window.onload = function() {
+window.onload = function () {
 	if (navigator.geolocation) {
-		
 
-		navigator.geolocation.getCurrentPosition(displayLocation, 
-			displayError,
-			{ enableHighAccuracy: false, timeout: 10000, maximumAge: 0 }
+
+		navigator.geolocation.getCurrentPosition(displayLocation,
+			displayError, {
+				enableHighAccuracy: false,
+				timeout: 10000,
+				maximumAge: 0
+			}
 		);
 	} else {
 		alert("Sorry, this browser doesn't support geolocation!");

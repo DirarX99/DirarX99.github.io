@@ -1,135 +1,126 @@
-body{
-  background-color: #fafafa;
-  font-family: Helvatica,Arial,sans-serif;
-  margin: 5px;
-	margin-top: -10px;
+body {
+    background-color: #fafafa;
+    font-family: Helvatica, Arial, sans-serif;
+    margin: 5px;
+    margin-top: -10px;
 }
-      
-#map{
-   margin: auto;         
-   width: 80%;
-   height: 740px;  
-	float: left;
- }
+
+#map {
+    margin: auto;
+    width: 80%;
+    height: 740px;
+    float: left;
+}
 
 .controls {
-  margin-top: 10px;
-  border: 1px solid transparent;
-  border-radius: 2px 0 0 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  height: 32px;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 #pac-input {
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 400px;
-	
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
 }
 
 #pac-input:focus {
-  border-color: #4d90fe;
+    border-color: #4d90fe;
 }
 
 #latlng {
-	
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 400px;
-	
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
 }
 
 #latlng:focus {
-  border-color: #4d90fe;
+    border-color: #4d90fe;
 }
 
-.button{
-	 
-  cursor: pointer;
-   height: 35px;
-   background: #3498db;
-   border: none;
-   color: #fff;
-   font-size: 14px;
-   font-weight: bold;
-  
-   -webkit-border-radius: 5px;
-   -moz-border-radius: 5px;
-   border-radius: 5px;
-	
+.button {
+    cursor: pointer;
+    height: 35px;
+    background: #3498db;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 table {
-  
-  font-family: sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 90%;
-  overflow: auto;
-  width: auto;
+    font-family: sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 90%;
+    overflow: auto;
+    width: auto;
 }
-  th {
+
+th {
     background-color: rgb(112, 196, 105);
     color: white;
     font-weight: normal;
     padding: 10px 15px;
     text-align: center;
-  }
-  td {
+}
+
+td {
     background-color: rgb(238, 238, 238);
     color: rgb(111, 111, 111);
     padding: 10px 15px;
-	text-align: center;
-	font-weight: bold;  
-  }
-#submit{
-	
-	margin-right: 30%;
-	
-}
-.item{
-	
+    text-align: center;
+    font-weight: bold;
 }
 
-#panel{
-	background-color: blueviolet;
-	float: right;
-	width: 20%;
-	height: 740px;
-	
+#submit {
+    margin-right: 30%;
 }
+
+.item {}
+
+#panel {
+    background-color: blueviolet;
+    float: right;
+    width: 20%;
+    height: 740px;
+}
+
 #addtower {
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 350px;
-	
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 350px;
 }
+
 #addrad {
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 150px;
- 
-	
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 150px;
 }
