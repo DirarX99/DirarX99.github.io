@@ -480,7 +480,7 @@ window.onload = function () {
 
 		navigator.geolocation.getCurrentPosition(displayLocation,
 			displayError, {
-				enableHighAccuracy: false,
+				enableHighAccuracy: true,
 				timeout: 10000,
 				maximumAge: 0
 			}
