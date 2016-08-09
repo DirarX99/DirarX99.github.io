@@ -2,6 +2,7 @@ var map;
 var infoWindow;
 var markers = [];
 var towers = [];
+var DBtowers = [];
 var markerTower;
 var marker;
 var myLatlng;
@@ -25,6 +26,7 @@ function displayLocation(position) {
 
 	var markerlatlng = new google.maps.LatLng(latitude, longitude);
 	createMarker(markerlatlng);
+	
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -66,7 +68,61 @@ function showMap(coords) {
 
 	radT1 = 10000;
 	radT2 = 5000;
+//*************************************
+	  downloadUrl("genxml.php", function(data) {
+        var xml = data.responseXML;
+        var xmarkers = xml.documentElement.getElementsByTagName("marker");
+        for (var i = 0; i < xmarkers.length; i++) {
+          var name = xmarkers[i].getAttribute("nom");
+         // var address = markers[i].getAttribute("address");
+         // var type = markers[i].getAttribute("type");
+          var point = new google.maps.LatLng(
+              parseFloat(xmarkers[i].getAttribute("latitude")),
+              parseFloat(xmarkers[i].getAttribute("longitude")));
+          var html = "<b> Antenne: " + name + "</b>" ;
+        // var icon = customIcons[type] || {};
+         var markerTower = new google.maps.Marker({
+          map: map,
+           position: point,
+           icon: "tower.png",
+		  title: name	 
+			});
+			//createTowerMarker(point, radT1);
+			console.log("DB marker created!");
+			DBtowers.push(markerTower);
+			console.log("number of towers: "+DBtowers.length);
+          bindInfoWindow(markerTower, map, infoWindow, html);
+        }
+      });
+    
 
+    function bindInfoWindow(marker, map, infoWindow, html) {
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+      });
+    }
+
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function doNothing() {}
+
+
+//*************************************	
 
 
 	new google.maps.LatLng(24.886, -70.269)
@@ -78,8 +134,8 @@ function showMap(coords) {
 		lat: 36.807,
 		lng: 10.095
 	};
-	var tower1 = createTowerMarker(myLatlng, radT1);
-	var tower2 = createTowerMarker(myLatlng2, radT2);
+	//var tower1 = createTowerMarker(myLatlng, radT1);
+	//var tower2 = createTowerMarker(myLatlng2, radT2);
 	var Latlng1 = new google.maps.LatLng(24.886, -70.269);
 	Latlng2 = new google.maps.LatLng(28.886, -72.269);
 
@@ -216,8 +272,13 @@ function showMap(coords) {
 		});
 	});
 
-	addTower();
-
+	//addTower();
+	//var dirarlat = DBtowers[0].getPosition().lat();
+	//var dirarlng  = DBtowers[1].getPosition().lng();
+	var easy = setTimeout(function(){ console.log("the final number of towers: "+DBtowers.length); }, 1000);
+	console.log(easy);
+	//console.log(dirarlat);
+	//console.log(dirarlng);
 }
 
 
@@ -251,7 +312,7 @@ function createMarker(latLng) {
 	});
 
 
-
+/*
 	test = marker.getPosition();
 
 	var ptest = document.getElementById("test");
@@ -366,7 +427,7 @@ function createMarker(latLng) {
 		}
 
 	});
-
+*/
 
 
 }
@@ -380,10 +441,12 @@ function createTowerMarker(myLatLng, rad) {
 		icon: ("tower.png"),
 		position: myLatLng,
 		map: map,
-		title: 'Hello World!'
+		title: 'Tower!'
 	});
 
 	towers.push(markerTower);
+	
+	
 
 	towerCircle = new google.maps.Circle({
 		strokeColor: '#FF0000',
