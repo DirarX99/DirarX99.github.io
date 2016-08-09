@@ -120,7 +120,40 @@ function showMap(coords) {
     }
 
     function doNothing() {}
+		var easy = setTimeout(function(){ 
+			var distarray=[];
+			
+			for (var i = 0; i < DBtowers.length; i++) {
+			
+			var dirarlat = DBtowers[i].getPosition().lat();
+			var dirarlng  = DBtowers[i].getPosition().lng();
+				
+			console.log(dirarlat);
+			console.log(dirarlng);
+			console.log("**************************");	
+				
+			
+			test = marker.getPosition();
+				
+	var ptest = document.getElementById("test");
+	ptest.innerHTML = test;
 
+	var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, DBtowers[i].getPosition()) / 1000).toFixed(2);
+	var pdistance = document.getElementById("distance");
+		
+				console.log(distance);
+				
+				distarray.push(distance);
+			
+				console.log( distarray );
+			}
+			var min = Math.min(...distarray);
+			pdistance.innerHTML = min;
+				console.log("the smallest number is : "+min);
+		console.log("the final number of towers: "+DBtowers.length);
+	
+	}, 1000);
+	console.log(easy);
 
 //*************************************	
 
@@ -275,8 +308,7 @@ function showMap(coords) {
 	//addTower();
 	//var dirarlat = DBtowers[0].getPosition().lat();
 	//var dirarlng  = DBtowers[1].getPosition().lng();
-	var easy = setTimeout(function(){ console.log("the final number of towers: "+DBtowers.length); }, 1000);
-	console.log(easy);
+
 	//console.log(dirarlat);
 	//console.log(dirarlng);
 }
