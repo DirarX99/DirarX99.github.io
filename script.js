@@ -143,9 +143,15 @@ function showMap(coords) {
 		
 				console.log(distance);
 				
-				distarray.push(distance);
+				//distarray.push(distance);
 			
-				console.log( distarray );
+				//console.log( distarray );
+				
+				var key = DBtowers[i].getTitle();
+				var obj = {};
+				obj[key] = distance;
+				distarray.push(obj);
+				console.log( distarray.obj[key] );
 			}
 			var min = Math.min(...distarray);
 			pdistance.innerHTML = min;
@@ -153,7 +159,7 @@ function showMap(coords) {
 		console.log("the final number of towers: "+DBtowers.length);
 	
 	}, 1000);
-	console.log(easy);
+	//console.log(easy);
 
 //*************************************	
 
