@@ -13,6 +13,9 @@ var Latlng2;
 var towerCircle;
 var radT1;
 var radT2;
+var nearest;
+var distarray=[];
+var namedis = {};
 //---------------------------------------------------------------------------------------------------------
 
 function displayLocation(position) {
@@ -27,6 +30,9 @@ function displayLocation(position) {
 	var markerlatlng = new google.maps.LatLng(latitude, longitude);
 	createMarker(markerlatlng);
 	
+	
+
+	
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -35,7 +41,7 @@ function showMap(coords) {
 
 	var mapOptions = {
 
-		zoom: 12,
+		zoom: 9,
 		center: googleLatLong,
 		mapTypeId: google.maps.MapTypeId.TERRAIN
 
@@ -60,6 +66,7 @@ function showMap(coords) {
 		} else {
 			createMarker(event.latLng);
 			map.panTo(event.latLng);
+			nearestTower();
 		}
 
 
@@ -74,17 +81,17 @@ function showMap(coords) {
         var xmarkers = xml.documentElement.getElementsByTagName("marker");
         for (var i = 0; i < xmarkers.length; i++) {
           var name = xmarkers[i].getAttribute("nom");
-         // var address = markers[i].getAttribute("address");
-         // var type = markers[i].getAttribute("type");
+          var gouvernorat = xmarkers[i].getAttribute("gouvernorat");
+          var delegation = xmarkers[i].getAttribute("delegation");
           var point = new google.maps.LatLng(
               parseFloat(xmarkers[i].getAttribute("latitude")),
               parseFloat(xmarkers[i].getAttribute("longitude")));
-          var html = "<b> Antenne: " + name + "</b>" ;
+          var html = "<b> Antenne: " + name + "</b></br><b> Gouvernorat: " + gouvernorat + "</br><b> Delegation: " + delegation + "</b>" ;
         // var icon = customIcons[type] || {};
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "tower.png",
+           icon: "point.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
@@ -120,50 +127,21 @@ function showMap(coords) {
     }
 
     function doNothing() {}
-		var easy = setTimeout(function(){ 
-			var distarray=[];
-			
-			for (var i = 0; i < DBtowers.length; i++) {
-			
-			var dirarlat = DBtowers[i].getPosition().lat();
-			var dirarlng  = DBtowers[i].getPosition().lng();
-				
-			console.log(dirarlat);
-			console.log(dirarlng);
-			console.log("**************************");	
-				
-			
-			test = marker.getPosition();
-				
-	var ptest = document.getElementById("test");
-	ptest.innerHTML = test;
-
-	var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, DBtowers[i].getPosition()) / 1000).toFixed(2);
-	var pdistance = document.getElementById("distance");
-		
-				console.log(distance);
-				
-				//distarray.push(distance);
-			
-				//console.log( distarray );
-				
-				var key = DBtowers[i].getTitle();
-				var obj = {};
-				obj[key] = distance;
-				distarray.push(obj);
-				console.log( distarray.obj[key] );
-			}
-			var min = Math.min(...distarray);
-			pdistance.innerHTML = min;
-				console.log("the smallest number is : "+min);
-		console.log("the final number of towers: "+DBtowers.length);
 	
-	}, 1000);
-	//console.log(easy);
+
+	
+	
+	//var easy =setTimeout(nearestTower(), 500);
+	nearestTower();
+		
+	
+	
+	
+	
 
 //*************************************	
 
-
+/*
 	new google.maps.LatLng(24.886, -70.269)
 	var myLatlng = {
 		lat: 36.807,
@@ -182,7 +160,7 @@ function showMap(coords) {
 
 	//var distance=google.maps.geometry.spherical.computeDistanceBetween(
 	//  myLatlng, Latlng2);
-	/*
+	
 
 	var distance= google.maps.geometry.spherical.computeDistanceBetween (Latlng1,Latlng2);
 	 var pdistance = document.getElementById("distance");
@@ -276,7 +254,7 @@ function showMap(coords) {
             ].join(' ');
 		}
 
-
+		nearestTower();
 	});
 
 	var geocoder = new google.maps.Geocoder;
@@ -301,7 +279,7 @@ function showMap(coords) {
 					map.setZoom(11);
 					createMarker(latlng);
 					map.setCenter(latlng);
-
+					nearestTower();
 				} else {
 					window.alert('No results found');
 				}
@@ -318,8 +296,51 @@ function showMap(coords) {
 	//console.log(dirarlat);
 	//console.log(dirarlng);
 }
+//--------------------------------------------------------------------------------------------------------------
+function nearestTower(){ 
+			setTimeout(function(){
+			for (var i = 0; i < DBtowers.length; i++) {
+			
+			var dirarlat = DBtowers[i].getPosition().lat();
+			var dirarlng  = DBtowers[i].getPosition().lng();
+				
+			console.log(dirarlat);
+			console.log(dirarlng);
+			console.log("**************************");	
+				
+			
+			test = marker.getPosition();
+				
+	var ptest = document.getElementById("test");
+	ptest.innerHTML = test;
+	
+	var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, DBtowers[i].getPosition()) / 1000).toFixed(2);
+	var pdistance = document.getElementById("distance");
+		
+				console.log(distance);
+				
+				distarray.push(distance);
+			
+				
+				var name = DBtowers[i].getTitle();
+				var dis = distance;
+				
+				namedis[name] = dis;
 
-
+			}
+			
+			var min = Math.min.apply(null,Object.keys(namedis).map(function(x){ return namedis[x] }));
+			
+			
+			 nearest = Object.keys(namedis).filter(function(x){ return namedis[x] == min; })[0];
+				
+				console.log("the nearest point is : "+nearest);
+			
+			pdistance.innerHTML = nearest;
+				
+		console.log("the final number of towers: "+DBtowers.length);
+			}, 50);
+	}
 
 //-----------------------------------------------------------------------------------------------------------------
 
@@ -343,10 +364,12 @@ function createMarker(latLng) {
 	    infoWindow.open(map,marker);
 	    
 	});   */
+	
 	google.maps.event.addListener(marker, "dragend", function (event) {
 		console.log("marker dropped !");
 		var plocation = document.getElementById("location");
 		plocation.innerHTML = event.latLng.lat() + "," + event.latLng.lng();
+		nearestTower();
 	});
 
 
@@ -589,4 +612,5 @@ window.onload = function () {
 	} else {
 		alert("Sorry, this browser doesn't support geolocation!");
 	}
+	
 }

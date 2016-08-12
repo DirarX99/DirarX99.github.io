@@ -20,7 +20,7 @@ if (!$conn) {
 
 
 
-$sql = "select * from antennes";
+$sql = "select * from station";
 $result = $conn->query($sql);
 
 // Iterate through the rows, adding XML nodes for each
@@ -35,7 +35,8 @@ while ($row = $result->fetch_assoc()){
   $newnode->setAttribute("nom",$row['nom']);
   $newnode->setAttribute("latitude", $row['latitude']);
   $newnode->setAttribute("longitude", $row['longitude']);
-
+  $newnode->setAttribute("gouvernorat", $row['gouvernorat']);
+  $newnode->setAttribute("delegation", $row['delegation']);
 }
    header ("Content-Type:text/xml");
   echo $dom->saveXML();
