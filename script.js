@@ -16,6 +16,7 @@ var radT2;
 var nearest;
 var distarray=[];
 var namedis = {};
+var heatMapData=[];
 //---------------------------------------------------------------------------------------------------------
 
 function displayLocation(position) {
@@ -40,8 +41,8 @@ function showMap(coords) {
 	var googleLatLong = new google.maps.LatLng(coords.latitude, coords.longitude);
 
 	var mapOptions = {
-
-		zoom: 9,
+		
+		zoom: 7,
 		center: googleLatLong,
 		mapTypeId: google.maps.MapTypeId.TERRAIN
 
@@ -91,17 +92,19 @@ function showMap(coords) {
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "point.png",
+           icon: "hide.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
-			console.log("DB marker created!");
+			//console.log("DB marker created!");
 			DBtowers.push(markerTower);
-			console.log("number of towers: "+DBtowers.length);
+			heatMapData.push(point);
+			//console.log("number of towers: "+DBtowers.length);
           bindInfoWindow(markerTower, map, infoWindow, html);
         }
       });
     
+	
 
     function bindInfoWindow(marker, map, infoWindow, html) {
       google.maps.event.addListener(marker, 'click', function() {
@@ -135,7 +138,12 @@ function showMap(coords) {
 	nearestTower();
 		
 	
-	
+	var heatmap = new google.maps.visualization.HeatmapLayer({
+  data: heatMapData
+});
+heatmap.setOptions({radius: 55});
+heatmap.setOptions({opacity: 0.4});	
+heatmap.setMap(map);
 	
 	
 
@@ -303,11 +311,11 @@ function nearestTower(){
 			
 			var dirarlat = DBtowers[i].getPosition().lat();
 			var dirarlng  = DBtowers[i].getPosition().lng();
-				
+			/*	
 			console.log(dirarlat);
 			console.log(dirarlng);
 			console.log("**************************");	
-				
+			*/	
 			
 			test = marker.getPosition();
 				
@@ -317,7 +325,7 @@ function nearestTower(){
 	var distance = (google.maps.geometry.spherical.computeDistanceBetween(test, DBtowers[i].getPosition()) / 1000).toFixed(2);
 	var pdistance = document.getElementById("distance");
 		
-				console.log(distance);
+				//console.log(distance);
 				
 				distarray.push(distance);
 			
@@ -339,7 +347,7 @@ function nearestTower(){
 			pdistance.innerHTML = nearest;
 				
 		console.log("the final number of towers: "+DBtowers.length);
-			}, 50);
+			}, 200);
 	}
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -595,8 +603,96 @@ function setMapOnAll(map) {
 function displayError(error) {
 
 }
+//---------------------------------------------------------------------------------------------------------------------
+function openPanel() {
+    document.getElementById("panel").style.width = "25%";
+	getChaine();
+}
+function closePanel() {
+    document.getElementById("panel").style.width = "0%";
+}
+//---------------------------------------------------------------------------------------------------------------------
+function getChaine() {
+      downloadUrl("genxmlChannel.php", function(data) {
+        var xml = data.responseXML;
+        var chaines = xml.documentElement.getElementsByTagName("chaine");
+        for (var i = 0; i < chaines.length; i++) {
+          var name = chaines[i].getAttribute("nom");
+			var FS = chaines[i].getAttribute("FS");	
+      
+ var body = document.getElementsByTagName("chainelist")[0];
+  var tbl     = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+  for (var i = 0; i < chaines.length; i++) {
+    var row = document.createElement("tr");
+   
+      var cell = document.createElement("td");
+       
+      var cellText = document.createTextNode(chaines[i].getAttribute("nom"));
+    
+   
+      var cell2 = document.createElement("td");
+		 var cellText2 = document.createTextNode(chaines[i].getAttribute("FS"));
+      cell.appendChild(cellText);
+	 
+	  cell2.appendChild(cellText2);
+      row.appendChild(cell);
+	  row.appendChild(cell2);
+  
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  chainelist.appendChild(tbl);
+  tbl.setAttribute("border", "1");
+  
+        }
+      });
+    
 
 
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function doNothing() {}
+	
+
+	
+}
+//---------------------------------------------------------------------------------------------------------------------
+function generatetable() {
+  var body = document.getElementsByTagName("chainelist")[0];
+  var tbl     = document.createElement("table");
+  var tblBody = document.createElement("tbody");
+  for (var i = 0; i < 8; i++) {
+    var row = document.createElement("tr");
+    for (var j = 0; j < 2; j++) {
+      var cell = document.createElement("td");
+       
+      var cellText = document.createTextNode("Dirar");
+      
+      cell.appendChild(cellText);
+      row.appendChild(cell);
+    }
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  chainelist.appendChild(tbl);
+  tbl.setAttribute("border", "1");
+}
+//---------------------------------------------------------------------------------------------------------------------
 
 window.onload = function () {
 	if (navigator.geolocation) {

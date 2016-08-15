@@ -4,7 +4,7 @@
 <head>
     <meta charset=utf-8 />
     <title>ONT: MATNT</title>
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry,places"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry,places,visualization"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -76,23 +76,15 @@
 
 
 
-
-
-    <input onclick="clearMarkers();" class="button" type=button value="Hide Markers">
-    <input onclick="deleteMarkers();" class="button" type=button value="Delete Markers">
-    <input onclick="showMarkers();" class="button" type=button value="Show All Markers">
-
+	
+	<input onclick="openPanel();" class="button" type=button value="open">
+   
     <br/>
     <br/>
     <div id="map" class="item">loading...</div>
     <div id="panel" class="item">
-        <center>
-            <h3><p style="color:white;">Add new Tower: </p></h3> </center>
-        <input id="addtower" class="controls" type="text" placeholder="Enter tower's GPS coords">
-        <input id="addrad" class="controls" type="number" placeholder="Enter radius">
-
-        <input class="button" id="addsubmit" type="button" value="Add">
-
+      <input onclick="closePanel();" class="button" type=button value="&times;">  
+		<div id="chainelist" ></div>
 
     </div>
 
