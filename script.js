@@ -92,7 +92,7 @@ function showMap(coords) {
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "hide.png",
+           icon: "point.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
@@ -143,7 +143,7 @@ function showMap(coords) {
 });
 heatmap.setOptions({radius: 55});
 heatmap.setOptions({opacity: 0.4});	
-heatmap.setMap(map);
+//heatmap.setMap(map);
 	
 	
 
@@ -606,7 +606,9 @@ function displayError(error) {
 //---------------------------------------------------------------------------------------------------------------------
 function openPanel() {
     document.getElementById("panel").style.width = "25%";
-	getChaine();
+	
+   passValue();
+	getChaine();	
 }
 function closePanel() {
     document.getElementById("panel").style.width = "0%";
@@ -617,6 +619,12 @@ function getChaine() {
         var xml = data.responseXML;
         var chaines = xml.documentElement.getElementsByTagName("chaine");
         for (var i = 0; i < chaines.length; i++) {
+			var pantenne = chaines[i].getAttribute("antenne");
+			console.log("test: "+pantenne);
+			var plocation = document.getElementById("chainelist");
+	plocation.innerHTML = pantenne;
+			
+			/*
           var name = chaines[i].getAttribute("nom");
 			var FS = chaines[i].getAttribute("FS");	
       
@@ -644,7 +652,7 @@ function getChaine() {
   tbl.appendChild(tblBody);
   chainelist.appendChild(tbl);
   tbl.setAttribute("border", "1");
-  
+  */
         }
       });
     
@@ -691,6 +699,15 @@ function generatetable() {
   tbl.appendChild(tblBody);
   chainelist.appendChild(tbl);
   tbl.setAttribute("border", "1");
+}
+//---------------------------------------------------------------------------------------------------------------------
+function passValue() {
+	
+
+	
+	 document.cookie="v=" + nearest;
+	
+ 
 }
 //---------------------------------------------------------------------------------------------------------------------
 

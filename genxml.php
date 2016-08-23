@@ -20,7 +20,7 @@ if (!$conn) {
 
 
 
-$sql = "select * from station";
+$sql = "select * from station where etat='ES'";
 $result = $conn->query($sql);
 
 // Iterate through the rows, adding XML nodes for each
