@@ -71,7 +71,10 @@ table {
     -webkit-font-smoothing: antialiased;
     font-size: 90%;
     overflow: auto;
-    width: auto;
+    width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	
 }
 
 th {
@@ -88,6 +91,13 @@ td {
     padding: 10px 15px;
     text-align: center;
     font-weight: bold;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #fafafa;
 }
 
 #submit {

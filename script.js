@@ -618,15 +618,93 @@ function getChaine() {
       downloadUrl("genxmlChannel.php", function(data) {
         var xml = data.responseXML;
         var chaines = xml.documentElement.getElementsByTagName("chaine");
+		  
+		  var table='';
+		  
+		  table+='<th>'+'Chaine'+'</th>'+'<th>'+'Signal'+'</th>';
         for (var i = 0; i < chaines.length; i++) {
-			var pantenne = chaines[i].getAttribute("antenne");
-			console.log("test: "+pantenne);
-			var plocation = document.getElementById("chainelist");
-	plocation.innerHTML = pantenne;
 			
-			/*
+			//var pantenne = chaines[i].getAttribute("nom");
+			//console.log("test: "+pantenne);
+			//var plocation = document.getElementById("chainelist");
+	        //plocation.innerHTML = pantenne;
+			
+			
           var name = chaines[i].getAttribute("nom");
-			var FS = chaines[i].getAttribute("FS");	
+			var FS = parseFloat(chaines[i].getAttribute("FS"));	
+			signalLevelIndicator(FS);
+			table+='<tr>';
+		//for(var c=0; c<cols; c++){
+			
+			table+='<td width=70%>'+name+'</td>'+'<td>'+'<img src="'+status+'"></td>';
+		//}
+		table+='</tr>';
+			
+		}
+			
+			
+
+	var test = document.getElementById("list");
+	test.innerHTML = '<table border=1>'+table+'</table>';
+			
+			
+			
+	   });
+			
+		var status	
+	function signalLevelIndicator(value){
+		
+		switch (value) {
+    case 0:
+        status = "level0.png";
+        break;
+    case 1:
+        status = "level1.png";
+        break;
+    case 2:
+        status = "level1.png";
+        break;
+    case 3:
+        status = "level2.png";
+        break;
+    case 4:
+        status = "level2.png";
+        break;
+    case 5:
+        status = "level3.png";
+        break;
+    case 6:
+        status = "level3.png";
+		break;		
+	case 7:
+        status = "level4.png";
+        break;
+    case 8:
+        status = "level4.png";
+        break;
+    case 9:
+        status = "level5.png";
+		break;	
+	 case 10:
+        status = "level5.png";
+		break;				
+}
+		
+		
+	}		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	/*		
       
  var body = document.getElementsByTagName("chainelist")[0];
   var tbl     = document.createElement("table");
@@ -652,10 +730,10 @@ function getChaine() {
   tbl.appendChild(tblBody);
   chainelist.appendChild(tbl);
   tbl.setAttribute("border", "1");
-  */
+ 
         }
-      });
-    
+     
+     */
 
 
     function downloadUrl(url, callback) {
@@ -703,11 +781,8 @@ function generatetable() {
 //---------------------------------------------------------------------------------------------------------------------
 function passValue() {
 	
-
-	
 	 document.cookie="v=" + nearest;
-	
- 
+
 }
 //---------------------------------------------------------------------------------------------------------------------
 
