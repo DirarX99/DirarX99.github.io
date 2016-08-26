@@ -17,6 +17,7 @@ var nearest;
 var distarray=[];
 var namedis = {};
 var heatMapData=[];
+var poly;
 //---------------------------------------------------------------------------------------------------------
 
 function displayLocation(position) {
@@ -33,7 +34,6 @@ function displayLocation(position) {
 	
 	
 
-	
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ function showMap(coords) {
 
 	var mapOptions = {
 		
-		zoom: 7,
+		zoom: 9,
 		center: googleLatLong,
 		mapTypeId: google.maps.MapTypeId.TERRAIN
 
@@ -76,6 +76,8 @@ function showMap(coords) {
 
 	radT1 = 10000;
 	radT2 = 5000;
+	
+	createMainTower();
 //*************************************
 	  downloadUrl("genxml.php", function(data) {
         var xml = data.responseXML;
@@ -92,7 +94,7 @@ function showMap(coords) {
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "point.png",
+           icon: "hide.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
@@ -138,11 +140,11 @@ function showMap(coords) {
 	nearestTower();
 		
 	
-	var heatmap = new google.maps.visualization.HeatmapLayer({
-  data: heatMapData
-});
-heatmap.setOptions({radius: 55});
-heatmap.setOptions({opacity: 0.4});	
+	//var heatmap = new google.maps.visualization.HeatmapLayer({
+ // data: heatMapData
+//});
+//heatmap.setOptions({radius: 55});
+//heatmap.setOptions({opacity: 0.4});	
 //heatmap.setMap(map);
 	
 	
@@ -347,7 +349,7 @@ function nearestTower(){
 			pdistance.innerHTML = nearest;
 				
 		console.log("the final number of towers: "+DBtowers.length);
-			}, 200);
+			}, 60);
 	}
 
 //-----------------------------------------------------------------------------------------------------------------
@@ -609,6 +611,8 @@ function openPanel() {
 	
    passValue();
 	getChaine();	
+	createPath();
+	
 }
 function closePanel() {
     document.getElementById("panel").style.width = "0%";
@@ -785,6 +789,154 @@ function passValue() {
 
 }
 //---------------------------------------------------------------------------------------------------------------------
+function createMainTower() {
+	  downloadUrl("genxmlMainTower.php", function(data) {
+        var xml = data.responseXML;
+        var xmarkers = xml.documentElement.getElementsByTagName("marker");
+        for (var i = 0; i < xmarkers.length; i++) {
+          var name = xmarkers[i].getAttribute("nom");
+          var gouvernorat = xmarkers[i].getAttribute("gouvernorat");
+          var delegation = xmarkers[i].getAttribute("delegation");
+          var point = new google.maps.LatLng(
+              parseFloat(xmarkers[i].getAttribute("latitude")),
+              parseFloat(xmarkers[i].getAttribute("longitude")));
+          var html = "<b> Antenne: " + name + "</b></br><b> Gouvernorat: " + gouvernorat + "</br><b> Delegation: " + delegation + "</b>" ;
+        // var icon = customIcons[type] || {};
+         var markerTower = new google.maps.Marker({
+          map: map,
+           position: point,
+           icon: "tower.png",
+		  title: name	 
+			});
+			//createTowerMarker(point, radT1);
+			//console.log("DB marker created!");
+			DBtowers.push(markerTower);
+			heatMapData.push(point);
+			//console.log("number of towers: "+DBtowers.length);
+          bindInfoWindow(markerTower, map, infoWindow, html);
+        }
+      });
+    
+	
+
+    function bindInfoWindow(marker, map, infoWindow, html) {
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+      });
+    }
+
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function doNothing() {}
+}
+
+//--------------------------------------------------------------------------------------------------------------------- 
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+//--------------------------------------------------------------------------------------------------------------------- 
+function createPath() {
+
+	 poly = new google.maps.Polyline({
+    strokeColor: '#0000FF',
+    strokeOpacity: 1.0,
+    strokeWeight: 3,
+    map: map,
+    });
+	
+	
+	
+		  downloadUrl("genxmlAcoords.php", function(data) {
+        var xml = data.responseXML;
+        var xmarkers = xml.documentElement.getElementsByTagName("Acoords");
+        for (var i = 0; i < xmarkers.length; i++) {
+       
+          var value1 = parseFloat(xmarkers[i].getAttribute("latitude"));
+          var value2 = parseFloat(xmarkers[i].getAttribute("longitude"));
+         
+	
+	var pathtest=new google.maps.LatLng(value1, value2);
+
+	console.log(value1+","+value2);
+	
+	
+	var path = [marker.getPosition(),pathtest];
+    //poly.setPath(path);
+	 var heading = google.maps.geometry.spherical.computeHeading(path[0], path[1]).toFixed();;
+	console.log(heading+" degree");
+			
+			
+			var plocation = document.getElementById("degree");
+	        plocation.innerHTML = heading+"°";
+
+			document.getElementById("needle").style.transform = "rotate("+heading+"deg)";
+	
+			
+			
+        }
+      });
+    
+	
+
+
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function doNothing() {}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+}
+//--------------------------------------------------------------------------------------------------------------------- 
 
 window.onload = function () {
 	if (navigator.geolocation) {

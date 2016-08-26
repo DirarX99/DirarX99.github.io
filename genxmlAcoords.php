@@ -6,7 +6,7 @@
 require("dbinfo.php");
 
 $dom = new DOMDocument("1.0");
-$node = $dom->createElement("chaines");
+$node = $dom->createElement("coords");
 $parnode = $dom->appendChild($node);
 
 
@@ -37,30 +37,11 @@ while ($row = $result->fetch_assoc()){
 }
 
 
-$latitude='';
-$longitude='';
-	
-$sql = "select latitude,longitude from antennes where nom='$antenne' ";
-$result = $conn->query($sql);
-
-
-if ($result->num_rows > 0) {
-  
-
-while ($row = $result->fetch_assoc()){
- $latitude=$row["latitude"];	
- $longitude=$row["longitude"];
- setcookie("latitude",$latitude);
- setcookie("longitude",$longitude);	
-}
- 
-} else {
-    echo "0 results";
-}
 
 
 
-$sql = "select * from chaine where antenne='$antenne' ";
+
+$sql = "select * from antennes where nom='$antenne' ";
 $result = $conn->query($sql);
 
 
@@ -69,11 +50,10 @@ if ($result->num_rows > 0) {
 
 while ($row = $result->fetch_assoc()){
  
-  $node = $dom->createElement("chaine");
+  $node = $dom->createElement("Acoords");
   $newnode = $parnode->appendChild($node);
-	//$newnode->setAttribute("antenne",$row['antenne']);
-  $newnode->setAttribute("nom",$row['nom']);
-	$newnode->setAttribute("FS",$row['FS']);	
+  $newnode->setAttribute("latitude",$row['latitude']);
+	$newnode->setAttribute("longitude",$row['longitude']);	
 }
    header ("Content-Type:text/xml");
   echo $dom->saveXML();
