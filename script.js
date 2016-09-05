@@ -18,6 +18,7 @@ var distarray=[];
 var namedis = {};
 var heatMapData=[];
 var poly;
+
 //---------------------------------------------------------------------------------------------------------
 
 function displayLocation(position) {
@@ -84,25 +85,25 @@ function showMap(coords) {
         var xmarkers = xml.documentElement.getElementsByTagName("marker");
         for (var i = 0; i < xmarkers.length; i++) {
           var name = xmarkers[i].getAttribute("nom");
-          var gouvernorat = xmarkers[i].getAttribute("gouvernorat");
-          var delegation = xmarkers[i].getAttribute("delegation");
+         // var gouvernorat = xmarkers[i].getAttribute("gouvernorat");
+         // var delegation = xmarkers[i].getAttribute("delegation");
           var point = new google.maps.LatLng(
               parseFloat(xmarkers[i].getAttribute("latitude")),
               parseFloat(xmarkers[i].getAttribute("longitude")));
-          var html = "<b> Antenne: " + name + "</b></br><b> Gouvernorat: " + gouvernorat + "</br><b> Delegation: " + delegation + "</b>" ;
+        //  var html = "<b> Antenne: " + name + "</b></br><b> Gouvernorat: " + gouvernorat + "</br><b> Delegation: " + delegation + "</b>" ;
         // var icon = customIcons[type] || {};
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "hide.png",
+           icon: "img/point.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
 			//console.log("DB marker created!");
 			DBtowers.push(markerTower);
-			heatMapData.push(point);
+			//heatMapData.push(point);
 			//console.log("number of towers: "+DBtowers.length);
-          bindInfoWindow(markerTower, map, infoWindow, html);
+         // bindInfoWindow(markerTower, map, infoWindow, html);
         }
       });
     
@@ -356,7 +357,7 @@ function nearestTower(){
 
 function createMarker(latLng) {
 	var markerOptions = {
-		icon: ("map-marker-s.png"),
+		icon: ("img/map-marker-s.png"),
 		position: latLng,
 		//position: {lat: 40.714, lng: -74.006},
 		map: map,
@@ -509,7 +510,7 @@ function createTowerMarker(myLatLng, rad) {
 
 
 	markerTower = new google.maps.Marker({
-		icon: ("tower.png"),
+		icon: ("img/tower.png"),
 		position: myLatLng,
 		map: map,
 		title: 'Tower!'
@@ -605,13 +606,24 @@ function setMapOnAll(map) {
 function displayError(error) {
 
 }
+
+ function alertname(valeurtest){
+				//0alert(valeurtest);
+	 			document.cookie="v=" + valeurtest;
+	
+	 setTimeout(
+		function(){createPath();}
+	 			
+				,100);
+			}
 //---------------------------------------------------------------------------------------------------------------------
 function openPanel() {
     document.getElementById("panel").style.width = "25%";
 	
    passValue();
+	//createPath();
 	getChaine();	
-	createPath();
+	
 	
 }
 function closePanel() {
@@ -624,8 +636,9 @@ function getChaine() {
         var chaines = xml.documentElement.getElementsByTagName("chaine");
 		  
 		  var table='';
+		 
 		  
-		  table+='<th>'+'Chaine'+'</th>'+'<th>'+'Signal'+'</th>';
+		  table+='<th>'+''+'</th>'+'<th>'+'Chaine'+'</th>'+'<th>'+'Antenne'+'</th>'+'<th>'+'Signal'+'</th>'+'<th>'+''+'</th>';
         for (var i = 0; i < chaines.length; i++) {
 			
 			//var pantenne = chaines[i].getAttribute("nom");
@@ -634,15 +647,20 @@ function getChaine() {
 	        //plocation.innerHTML = pantenne;
 			
 			
-          var name = chaines[i].getAttribute("nom");
+          var name = chaines[i].getAttribute("chaine");
+			var antennech = chaines[i].getAttribute("antenne");
 			var FS = parseFloat(chaines[i].getAttribute("FS"));	
 			signalLevelIndicator(FS);
 			table+='<tr>';
-		//for(var c=0; c<cols; c++){
+			var test1=String(antennech);
 			
-			table+='<td width=70%>'+name+'</td>'+'<td>'+'<img src="'+status+'"></td>';
-		//}
+table+='<td>'+(i+1)+'</td>'+'<td width=70%>'+name+'</td>'+'<td>'+antennech+'</td>'+'<td>'+'<img src="'+status+'"></td>'+'<td>'+'<button class="button" onclick="alertname(\''+ test1 +'\')">Go!</button></td>';
+		
 		table+='</tr>';
+		
+			
+			
+			
 			
 		}
 			
@@ -660,37 +678,37 @@ function getChaine() {
 		
 		switch (value) {
     case 0:
-        status = "level0.png";
+        status = "img/level0.png";
         break;
     case 1:
-        status = "level1.png";
+        status = "img/level1.png";
         break;
     case 2:
-        status = "level1.png";
+        status = "img/level1.png";
         break;
     case 3:
-        status = "level2.png";
+        status = "img/level2.png";
         break;
     case 4:
-        status = "level2.png";
+        status = "img/level2.png";
         break;
     case 5:
-        status = "level3.png";
+        status = "img/level3.png";
         break;
     case 6:
-        status = "level3.png";
+        status = "img/level3.png";
 		break;		
 	case 7:
-        status = "level4.png";
+        status = "img/level4.png";
         break;
     case 8:
-        status = "level4.png";
+        status = "img/level4.png";
         break;
     case 9:
-        status = "level5.png";
+        status = "img/level5.png";
 		break;	
 	 case 10:
-        status = "level5.png";
+        status = "img/level5.png";
 		break;				
 }
 		
@@ -805,13 +823,13 @@ function createMainTower() {
          var markerTower = new google.maps.Marker({
           map: map,
            position: point,
-           icon: "tower.png",
+           icon: "img/tower.png",
 		  title: name	 
 			});
 			//createTowerMarker(point, radT1);
 			//console.log("DB marker created!");
-			DBtowers.push(markerTower);
-			heatMapData.push(point);
+			//DBtowers.push(markerTower);
+			//heatMapData.push(point);
 			//console.log("number of towers: "+DBtowers.length);
           bindInfoWindow(markerTower, map, infoWindow, html);
         }
@@ -939,6 +957,19 @@ function createPath() {
 //--------------------------------------------------------------------------------------------------------------------- 
 
 window.onload = function () {
+	/*
+	  map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 36.85046392429608, lng: 10.192517928124971},
+          zoom: 9,
+		  mapTypeId: google.maps.MapTypeId.TERRAIN
+        });
+	
+	
+	
+	var ontpos = new google.maps.LatLng(36.85046392429608, 10.192517928124971);
+	test=ontpos;
+	showMap(ontpos);
+	*/
 	if (navigator.geolocation) {
 
 
