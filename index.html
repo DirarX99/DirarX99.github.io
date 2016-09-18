@@ -40,7 +40,10 @@
 		setTimeout(function () {
 		
 			overlay.className += 'fade';
-			overlay.style.display = 'none';
+			setTimeout(function () {
+		overlay.style.display = 'none';
+		}, 1000);
+			
 		}, 4000);
 	</script>
 
