@@ -8,10 +8,11 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<title>ONT project</title>
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDudFyTGhbU2CvJtJNxlYPcJfRQnZ1pbTg&libraries=geometry,places,visualization"></script>
-	<link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 	<link rel="stylesheet" type="text/css" href="style.css">
 
 	<script type="text/javascript" src="script.js"></script>
+	
 	<!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="customstyle.css" rel="stylesheet">
@@ -28,19 +29,19 @@
 
 
 	<div id="overlay">
-<div >
-		<img class="spinner" src="img/favicon.png">
-	<H2>Loading...</H2>
-		</div> 
-</div>
+		<div>
+			<img class="spinner" src="img/favicon.png">
+			
+		</div>
+	</div>
 
 	<script>
-	var overlay = document.getElementById("overlay");
-
-window.addEventListener('load', function(){
-  overlay.style.display = 'none';
-})
-	
+		var overlay = document.getElementById("overlay");
+		setTimeout(function () {
+			//overlay.style.display = 'none';
+			overlay.className += 'fade';
+		
+		}, 4000);
 	</script>
 
 	<table id="TS" style="width:100%">
@@ -169,28 +170,29 @@ window.addEventListener('load', function(){
 				<!-- /.col-lg-6 -->
 
 
-							<button id="openPanel" type="button" class="btn btn-danger navbar-right" onclick="openPanel();" data-toggle="tooltip" data-placement="left" title="list des chaine"><span class="glyphicon glyphicon-list"></span> Open menu</button>	
-							
-					</div>
-					<!-- /.row -->
-					<div class=" nav navbar-header ">
+				<button id="openPanel" type="button" class="btn btn-danger navbar-right" onclick="openPanel();" data-toggle="tooltip" data-placement="left" title="list des chaine"><span class="glyphicon glyphicon-list"></span> Open menu</button>
+
+		</div>
+		<!-- /.row -->
+		<div class=" nav navbar-header ">
 
 
 
-
-				</div>
-
-			</nav>
 
 		</div>
 
-		<div class="container-fluid">
-
-			<div class="row">
-				<div id="map" class=" map-view col-xs-12"><div class="text-center alert alert-warning col-xs-3 " role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span><strong> We need your loacation </strong>,Allow location in order to load the map!</div>
-	</div>
+		</nav>
 
 	</div>
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<div id="map" class=" map-view col-xs-12">
+				<div class="text-center alert alert-warning col-xs-3 " role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span><strong> We need your loacation </strong>,Allow location in order to load the map!</div>
+			</div>
+
+		</div>
 
 
 
