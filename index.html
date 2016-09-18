@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 
 	<script type="text/javascript" src="script.js"></script>
-	
+
 	<!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="customstyle.css" rel="stylesheet">
@@ -31,20 +31,20 @@
 	<div id="overlay">
 		<div>
 			<img class="spinner" src="img/favicon.png">
-			
+
 		</div>
 	</div>
 
 	<script>
 		var overlay = document.getElementById("overlay");
 		setTimeout(function () {
-		
+
 			overlay.className += 'fade';
 			setTimeout(function () {
-		overlay.style.display = 'none';
-		}, 1000);
-			
-		}, 4000);
+				overlay.style.display = 'none';
+			}, 1000);
+
+		}, 3000);
 	</script>
 
 	<table id="TS" style="width:100%">
@@ -150,12 +150,15 @@
 		<div class="row">
 			<nav id="control" class="navbar navbar-default">
 				<div class="container-fluid">
+
 					<div class="row">
-						<button type="button" class="btn btn-primary btn-md" onclick="returnPosition();"><span class="glyphicon glyphicon-screenshot"></button>
+						<button id="returnPosition" type="button" class="navbar-left btn btn-primary btn-md" onclick="returnPosition();"data-toggle="tooltip" data-placement="right" title="Locate marker"><span class="glyphicon glyphicon-screenshot"></button>
+																	
 						<div class="col-md-3 hidden-xs hidden-sm">
 						<div class="input-group ">
 						
 						  <input id="pac-input" type="text" class="form-control" placeholder="Enter a location" >
+							<span class="input-group-addon" id="sizing-addon1"></span>
 						</div>
 						</div>	
 						<div class="col-md-3 hidden-xs hidden-sm">
@@ -201,9 +204,17 @@
 
 	</div>
 	<div id="panel" class="">
-		<input onclick="closePanel();" class="button" type=button value="&times;">
+		<button onclick="closePanel();" class="btn btn-default glyphicon glyphicon-remove" ></button>
+		<div id="list"></div>
+		
+	</div>
+				
+				
+		<div id="compassPanel" class="">
+			<button onclick="closeCompassPanel();" class="btn btn-default glyphicon glyphicon-menu-left" ></button>
 		<div id="chainelist"></div>
 		<div id="orientation">
+			
 			<div id="compass">
 
 				<img src="img/needle.png" id="needle">
@@ -219,12 +230,11 @@
 
 
 
-
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove"aria-hidden="true"></span></button>
 					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
 				</div>
 				<div class="modal-body">
