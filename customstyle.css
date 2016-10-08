@@ -154,6 +154,7 @@ position: absolute;
 }
 #openPanel{
 	margin: 0px 10px 10px 0px;
+	display: inline;
 	 
 }
 #returnPosition{
